@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.WindowsAzure.MobileServices.Files;
 using Xamarin.Forms;
+using Microsoft.WindowsAzure.MobileServices.Files.Managed;
 
 namespace MobileAppsFilesSample
 {
@@ -48,7 +49,7 @@ namespace MobileAppsFilesSample
 
         public async Task LoadImagesAsync()
         {
-            IEnumerable<MobileServiceFile> files = await this.itemManager.GetImageFilesAsync(todoItem);
+            IEnumerable<MobileServiceManagedFile> files = await this.itemManager.GetImageFilesAsync(todoItem);
             this.Images = new ObservableCollection<TodoItemImageViewModel>();
 
             foreach (var f in files) {
@@ -91,14 +92,14 @@ namespace MobileAppsFilesSample
         private async void AddImage(object obj)
         {
             IPlatform mediaProvider = DependencyService.Get<IPlatform>();
-            string sourceImagePath = await mediaProvider.TakePhotoAsync(App.UIContext);
+            var imageStream = await mediaProvider.TakePhotoAsync(App.UIContext);
 
             //var mediaPicker = new MediaPicker(App.UIContext);
             //var photo = await mediaPicker.TakePhotoAsync(new StoreCameraMediaOptions());
 
-            if (sourceImagePath != null)
+            if (imageStream != null)
             {
-                MobileServiceFile file = await this.itemManager.AddImage(this.todoItem, sourceImagePath);
+                MobileServiceManagedFile file = await this.itemManager.AddImage(this.todoItem, Guid.NewGuid().ToString(), imageStream);
 
                 var image = await TodoItemImageViewModel.CreateAsync(file, this.todoItem, DeleteImage);
                 this.images.Add(image);

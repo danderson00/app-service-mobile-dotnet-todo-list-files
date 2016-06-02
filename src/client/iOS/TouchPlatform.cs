@@ -26,12 +26,12 @@ namespace MobileAppsFilesSample.iOS
             return new PathMobileServiceFileDataSource(filePath);
         }
 
-        public async Task<string> TakePhotoAsync(object context)
+        public async Task<Stream> TakePhotoAsync(object context)
         {
             try {
                 var mediaPicker = new MediaPicker();
                 var mediaFile = await mediaPicker.PickPhotoAsync();
-                return mediaFile.Path;
+                return mediaFile.GetStream();
             }
             catch (TaskCanceledException) {
                 return null;

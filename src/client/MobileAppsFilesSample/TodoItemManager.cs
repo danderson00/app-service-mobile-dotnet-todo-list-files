@@ -3,17 +3,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
 
 using Microsoft.WindowsAzure.MobileServices.SQLiteStore;
-using Microsoft.WindowsAzure.MobileServices.Sync;
-using Microsoft.WindowsAzure.MobileServices.Files;
-using Microsoft.WindowsAzure.MobileServices.Files.Sync;
+using Microsoft.WindowsAzure.MobileServices.Files.Managed;
 using System.IO;
-using Microsoft.WindowsAzure.MobileServices.Eventing;
 using Xamarin.Forms;
+using Microsoft.WindowsAzure.MobileServices.Sync;
 
 namespace MobileAppsFilesSample
 {
@@ -30,13 +27,12 @@ namespace MobileAppsFilesSample
             var result = new TodoItemManager();
             result.client = new MobileServiceClient(Constants.ApplicationURL);
 
-            //var store = new MobileServiceSQLiteStore("localstore2.db" + DateTime.UtcNow.Ticks);
             var store = new MobileServiceSQLiteStore("localstore.db");
 
             store.DefineTable<TodoItem>();
 
             // Initialize file sync
-            result.client.InitializeFileSyncContext(new TodoItemFileSyncHandler(result), store);
+            result.client.InitializeManagedFileSyncContext(store);
 
             // Initialize the SyncContext using the default IMobileServiceSyncHandler
             await result.client.SyncContext.InitializeAsync(store, StoreTrackingOptions.NotifyLocalAndServerOperations);
@@ -60,8 +56,6 @@ namespace MobileAppsFilesSample
             ReadOnlyCollection<MobileServiceTableOperationError> syncErrors = null;
 
             try {
-//                await this.client.SyncContext.PushAsync();
-
                 // FILES: Push file changes
                 await this.todoTable.PushFileChangesAsync();
 
@@ -118,7 +112,6 @@ namespace MobileAppsFilesSample
         public async Task DeleteTaskAsync(TodoItem item)
         {
             try {
-                //TodoViewModel.TodoItems.Remove(item);
                 await todoTable.DeleteAsync(item);
             }
             catch (MobileServiceInvalidOperationException msioe) {
@@ -129,7 +122,7 @@ namespace MobileAppsFilesSample
             }
         }
 
-        internal async Task DownloadFileAsync(MobileServiceFile file)
+        internal async Task DownloadFileAsync(MobileServiceManagedFile file)
         {
             var todoItem = await todoTable.LookupAsync(file.ParentId);
             Debug.WriteLine ("++ Downloading file: " + todoItem.Name);
@@ -138,30 +131,22 @@ namespace MobileAppsFilesSample
             await platform.DownloadFileAsync(this.todoTable, file);
         }
 
-        internal async Task<MobileServiceFile> AddImage(TodoItem todoItem, string imagePath)
+        internal async Task<MobileServiceManagedFile> AddImage(TodoItem todoItem, string name, Stream content)
         {
-            string targetPath = await FileHelper.CopyTodoItemFileAsync(todoItem.Id, imagePath);
-
             // FILES: Creating/Adding file
-            MobileServiceFile file = await this.todoTable.AddFileAsync(todoItem, Path.GetFileName(targetPath));
-
-            // "Touch" the record to mark it as updated
-            // no longer required as of beta2
-            //await this.todoTable.UpdateAsync(todoItem);
-
-            return file;
+            return await this.todoTable.AddFileAsync(todoItem, name, content);
         }
 
-        internal async Task DeleteImage(TodoItem todoItem, MobileServiceFile file)
+        internal async Task DeleteImage(TodoItem todoItem, MobileServiceManagedFile file)
         {
             // FILES: Deleting file
-            await this.todoTable.DeleteFileAsync(file);
+            await this.todoTable.DeleteFileAsync(todoItem, file.Name);
 
             // "Touch" the record to mark it as updated
             await this.todoTable.UpdateAsync(todoItem);
         }
 
-        internal async Task<IEnumerable<MobileServiceFile>> GetImageFilesAsync(TodoItem todoItem)
+        internal async Task<IEnumerable<MobileServiceManagedFile>> GetImageFilesAsync(TodoItem todoItem)
         {
             // FILES: Get files (local)
             return await this.todoTable.GetFilesAsync(todoItem);

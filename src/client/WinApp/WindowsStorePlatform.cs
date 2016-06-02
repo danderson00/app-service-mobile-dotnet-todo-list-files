@@ -50,7 +50,7 @@ namespace WinApp
             return result.Path;
         }
 
-        public async Task<string> TakePhotoAsync(object context)
+        public async Task<Stream> TakePhotoAsync(object context)
         {
             try {
                 CameraCaptureUI dialog = new CameraCaptureUI();
@@ -58,7 +58,7 @@ namespace WinApp
                 dialog.PhotoSettings.CroppedAspectRatio = aspectRatio;
 
                 StorageFile file = await dialog.CaptureFileAsync(CameraCaptureUIMode.Photo);
-                return file.Path;
+                return await file.OpenStreamForReadAsync();
             }
             catch (TaskCanceledException) {
                 return null;

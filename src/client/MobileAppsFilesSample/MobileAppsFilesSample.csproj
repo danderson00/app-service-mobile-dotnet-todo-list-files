@@ -55,7 +55,6 @@
     <Compile Include="App.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="TodoItem.cs" />
-    <Compile Include="TodoItemFileSyncHandler.cs" />
     <Compile Include="TodoItemManager.cs" />
     <Compile Include="ViewModels\TodoItemImageViewModel.cs" />
     <Compile Include="ViewModels\TodoItemViewModel.cs" />
@@ -78,9 +77,8 @@
       <HintPath>..\packages\Microsoft.Azure.Mobile.Client.2.0.1\lib\portable-win+net45+wp8+wpa81+monotouch+monoandroid\Microsoft.WindowsAzure.Mobile.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Mobile.Files, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Azure.Mobile.Client.Files.1.0.0-beta-2\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10\Microsoft.WindowsAzure.Mobile.Files.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.WindowsAzure.Mobile.Files">
+      <HintPath>..\Components\files\Microsoft.WindowsAzure.Mobile.Files.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Mobile.SQLiteStore, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Azure.Mobile.Client.SQLiteStore.2.0.1\lib\portable-win+net45+wp8+wpa81+monotouch+monoandroid\Microsoft.WindowsAzure.Mobile.SQLiteStore.dll</HintPath>

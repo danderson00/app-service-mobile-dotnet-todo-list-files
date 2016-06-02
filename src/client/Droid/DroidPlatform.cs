@@ -28,7 +28,7 @@ namespace MobileAppsFilesSample.Droid
             return new PathMobileServiceFileDataSource(filePath);
         }
 
-        public async Task<string> TakePhotoAsync(object context)
+        public async Task<Stream> TakePhotoAsync(object context)
         {
             try {
                 var uiContext = context as Context;
@@ -36,7 +36,7 @@ namespace MobileAppsFilesSample.Droid
                     var mediaPicker = new MediaPicker(uiContext);
                     var photo = await mediaPicker.TakePhotoAsync(new StoreCameraMediaOptions());
 
-                    return photo.Path;
+                    return photo.GetStream();
                 }
             }
             catch (TaskCanceledException) {

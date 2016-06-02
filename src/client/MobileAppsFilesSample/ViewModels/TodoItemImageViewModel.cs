@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.WindowsAzure.MobileServices.Files;
 using Xamarin.Forms;
+using Microsoft.WindowsAzure.MobileServices.Files.Managed;
 
 namespace MobileAppsFilesSample
 {
@@ -17,7 +18,7 @@ namespace MobileAppsFilesSample
 
         private TodoItemImageViewModel() { }
 
-        public static async Task<TodoItemImageViewModel> CreateAsync(MobileServiceFile file, TodoItem todoItem, Action<TodoItemImageViewModel> deleteHandler)
+        public static async Task<TodoItemImageViewModel> CreateAsync(MobileServiceManagedFile file, TodoItem todoItem, Action<TodoItemImageViewModel> deleteHandler)
         {
             var result = new TodoItemImageViewModel();
 
@@ -72,6 +73,6 @@ namespace MobileAppsFilesSample
             }
         }
 
-        public MobileServiceFile File { get; private set; }
+        public MobileServiceManagedFile File { get; private set; }
     }
 }
