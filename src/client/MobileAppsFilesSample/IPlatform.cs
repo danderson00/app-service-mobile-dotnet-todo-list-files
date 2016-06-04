@@ -8,12 +8,6 @@ namespace MobileAppsFilesSample
 {
     public interface IPlatform
     {
-        Task <string> GetTodoFilesPathAsync();
-
-        Task<IMobileServiceFileDataSource> GetFileDataSource(MobileServiceFileMetadata metadata);
-
         Task<Stream> TakePhotoAsync(object context);
-
-        Task DownloadFileAsync<T>(IMobileServiceSyncTable<T> table, MobileServiceFile file);
     }
 }

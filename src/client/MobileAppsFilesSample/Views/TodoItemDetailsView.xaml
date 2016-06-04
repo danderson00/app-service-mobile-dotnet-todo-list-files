@@ -16,7 +16,7 @@
               Grid.Row="2">
       <ListView.ItemTemplate>
         <DataTemplate>
-          <ImageCell ImageSource="{Binding Uri}"
+          <ImageCell ImageSource="{Binding Source}"
                      Text="{Binding Name}">
             <ImageCell.ContextActions >
               <MenuItem Text="Delete" Command="{Binding DeleteCommand}" IsDestructive="True" CommandParameter="{Binding .}"/>

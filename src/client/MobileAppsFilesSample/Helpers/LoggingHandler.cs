@@ -14,8 +14,7 @@ namespace MobileAppsFilesSample
 		private bool logResults;
 		private bool logParameters;
 
-		public MobileServiceSQLiteStoreWithLogging(string fileName, bool logResults = false, bool logParameters = false) 
-			: base(fileName) 
+		public MobileServiceSQLiteStoreWithLogging(string fileName, bool logResults = false, bool logParameters = false) : base(fileName)
 		{
 			this.logResults = logResults;
 			this.logParameters = logParameters;
@@ -23,28 +22,26 @@ namespace MobileAppsFilesSample
 
 		protected override IList<Newtonsoft.Json.Linq.JObject> ExecuteQuery(string tableName, string sql, IDictionary<string, object> parameters)
 		{
-			Debug.WriteLine (sql);   
+			Debug.WriteLine(sql);
 
 			if(logParameters)
-				PrintDictionary (parameters);
+				PrintDictionary(parameters);
 
 			var result = base.ExecuteQuery(tableName, sql, parameters);
 
 			if (logResults && result != null) 
-			{
 				foreach (var token in result)
 					Debug.WriteLine (token);
-			}
 
 			return result;
 		}
 
 		protected override void ExecuteNonQuery(string sql, IDictionary<string, object> parameters)
 		{
-			Debug.WriteLine (sql);
+			Debug.WriteLine(sql);
 
 			if(logParameters)
-				PrintDictionary (parameters);
+				PrintDictionary(parameters);
 
 			base.ExecuteNonQuery(sql, parameters);
 		}

@@ -82,12 +82,9 @@ namespace MobileAppsFilesSample.ViewModels
         {
             InitCommands();
 
-            TodoItemManager.CreateAsync().ContinueWith(x => {
-                this.manager = x.Result;
-                this.manager.MobileServiceClient.EventManager.Subscribe<StoreOperationCompletedEvent>(StoreOperationEventHandler);
-
-                Device.BeginInvokeOnMainThread(async () => { await SyncItemsAsync(); });
-            });
+            this.manager = new TodoItemManager(App.Client);
+            this.manager.MobileServiceClient.EventManager.Subscribe<StoreOperationCompletedEvent>(StoreOperationEventHandler);
+            Device.BeginInvokeOnMainThread(async () => { await SyncItemsAsync(); });
         }
 
         private async void StoreOperationEventHandler(StoreOperationCompletedEvent mobileServiceEvent)

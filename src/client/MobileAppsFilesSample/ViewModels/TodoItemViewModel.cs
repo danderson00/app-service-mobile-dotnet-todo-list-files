@@ -52,15 +52,15 @@ namespace MobileAppsFilesSample
             IEnumerable<MobileServiceManagedFile> files = await this.itemManager.GetImageFilesAsync(todoItem);
             this.Images = new ObservableCollection<TodoItemImageViewModel>();
 
-            foreach (var f in files) {
-                var viewModel = await TodoItemImageViewModel.CreateAsync(f, this.todoItem, DeleteImage);
+            foreach (var file in files) {
+                var viewModel = new TodoItemImageViewModel(this.itemManager, file, this.todoItem, DeleteImage);
                 this.Images.Add(viewModel);
             }
         }
 
         private async void DeleteImage(TodoItemImageViewModel imageViewModel)
         {
-            await this.itemManager.DeleteImage(this.todoItem, imageViewModel.File);
+            await this.itemManager.DeleteImageAsync(this.todoItem, imageViewModel.File);
 
             this.images.Remove(imageViewModel);
         }
@@ -99,9 +99,9 @@ namespace MobileAppsFilesSample
 
             if (imageStream != null)
             {
-                MobileServiceManagedFile file = await this.itemManager.AddImage(this.todoItem, Guid.NewGuid().ToString(), imageStream);
+                MobileServiceManagedFile file = await this.itemManager.AddImageAsync(this.todoItem, Guid.NewGuid().ToString(), imageStream);
 
-                var image = await TodoItemImageViewModel.CreateAsync(file, this.todoItem, DeleteImage);
+                var image = new TodoItemImageViewModel(this.itemManager, file, this.todoItem, DeleteImage);
                 this.images.Add(image);
             }
         }

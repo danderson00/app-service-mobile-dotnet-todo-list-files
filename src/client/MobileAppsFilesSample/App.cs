@@ -1,11 +1,13 @@
-﻿using System.Threading.Tasks;
-using MobileAppsFilesSample.ViewModels;
+﻿using MobileAppsFilesSample.ViewModels;
 using Xamarin.Forms;
+using Microsoft.WindowsAzure.MobileServices;
 
 namespace MobileAppsFilesSample
 {
     public class App : Application
     {
+        public static IMobileServiceClient Client { get; set; }
+
         public App()
         {            
             this.MainPage = new NavigationPage(new TodoList(new TodoListViewModel()));
