@@ -1,24 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-using Xamarin.Forms;
+﻿using MobileAppsFilesSample.ViewModels;
+using System;
 using System.Threading.Tasks;
-using Microsoft.WindowsAzure.MobileServices.Files.Sync;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using MobileAppsFilesSample.ViewModels;
+using Xamarin.Forms;
 
 namespace MobileAppsFilesSample
 {
     public partial class TodoList : ContentPage
     {
-        TodoListViewModel ViewModel
+        private TodoListViewModel ViewModel
         {
-            get
-            {
-                return this.BindingContext as TodoListViewModel;
-            }
+            get { return this.BindingContext as TodoListViewModel; }
         }
 
         public TodoList(TodoListViewModel viewModel)
@@ -32,10 +23,9 @@ namespace MobileAppsFilesSample
             {
                 syncButton.IsVisible = true;
             }
-        }
+        }        
 
-        // Event handlers
-        public async void OnSelected(object sender, SelectedItemChangedEventArgs e)
+        public async void todoList_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             var todo = e.SelectedItem as TodoItemViewModel;
 
@@ -46,7 +36,7 @@ namespace MobileAppsFilesSample
             todoList.SelectedItem = null;
         }
 
-        public async void OnRefresh(object sender, EventArgs e)
+        public async void todoList_Refreshing(object sender, EventArgs e)
         {
             var list = (ListView)sender;
 
@@ -64,7 +54,7 @@ namespace MobileAppsFilesSample
                 await DisplayAlert("Refresh Error", "Couldn't refresh data", "OK");
         }
 
-        public async void OnSyncItems(object sender, EventArgs e)
+        public async void syncButton_Clicked(object sender, EventArgs e)
         {
             using (var scope = new ActivityIndicatorScope(syncIndicator, true)) {
                 await ViewModel.SyncItemsAsync();

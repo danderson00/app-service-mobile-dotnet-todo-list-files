@@ -32,14 +32,14 @@
                   IsVisible="False"
                   Grid.Row="1"
                   HeightRequest="30"
-                  Clicked="OnSyncItems" >
+                  Clicked="syncButton_Clicked" >
           </Button>
         </StackLayout>
       </Grid>
     </StackLayout>
     <ListView x:Name="todoList"
-        ItemSelected="OnSelected"
-        IsPullToRefreshEnabled="true" Refreshing="OnRefresh"
+        ItemSelected="todoList_ItemSelected"
+        IsPullToRefreshEnabled="true" Refreshing="todoList_Refreshing"
         ItemsSource="{Binding TodoItems}"
         Grid.Row="1">
       <ListView.ItemTemplate>
