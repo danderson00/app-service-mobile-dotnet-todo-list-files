@@ -20,6 +20,18 @@ namespace MobileAppsFilesSample.ViewModels
         private long pendingChanges;
         private bool isStatusBarVisible;
 
+        public ICommand AddItemCommand { get; set; }
+        public ICommand DeleteItemCommand { get; set; }
+
+        public TodoListViewModel()
+        {
+            InitCommands();
+
+            this.manager = new TodoItemManager(App.Client);
+            this.manager.MobileServiceClient.EventManager.Subscribe<StoreOperationCompletedEvent>(StoreOperationEventHandler);
+            //Device.BeginInvokeOnMainThread(async () => { await SyncItemsAsync(); });
+        }
+
         public ObservableCollection<TodoItemViewModel> TodoItems
         {
             get
@@ -32,9 +44,6 @@ namespace MobileAppsFilesSample.ViewModels
                 OnPropertyChanged();
             }
         }
-
-        public ICommand AddItemCommand { get; set; }
-        public ICommand DeleteItemCommand { get; set; }
 
         public string NewItemText
         {
@@ -76,15 +85,6 @@ namespace MobileAppsFilesSample.ViewModels
                 isStatusBarVisible = value;
                 OnPropertyChanged();
             }
-        }
-
-        public TodoListViewModel()
-        {
-            InitCommands();
-
-            this.manager = new TodoItemManager(App.Client);
-            this.manager.MobileServiceClient.EventManager.Subscribe<StoreOperationCompletedEvent>(StoreOperationEventHandler);
-            Device.BeginInvokeOnMainThread(async () => { await SyncItemsAsync(); });
         }
 
         private async void StoreOperationEventHandler(StoreOperationCompletedEvent mobileServiceEvent)
@@ -138,7 +138,7 @@ namespace MobileAppsFilesSample.ViewModels
 
         public async Task NavigateToDetailsView(TodoItemViewModel todo, INavigation navigation)
         {
-            await todo.LoadImagesAsync(); // reload images as they download asynchronously
+            await todo.LoadImagesAsync();
             var detailsView = new TodoItemDetailsView();
             detailsView.BindingContext = todo;
 

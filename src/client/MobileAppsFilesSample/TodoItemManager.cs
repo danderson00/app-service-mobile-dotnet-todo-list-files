@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
@@ -20,16 +18,13 @@ namespace MobileAppsFilesSample
             this.todoTable = client.GetSyncTable<TodoItem>();
         }
 
-
         public async Task SyncAsync()
         {
             ReadOnlyCollection<MobileServiceTableOperationError> syncErrors = null;
 
             try {
-                // FILES: Push file changes
                 await this.todoTable.PushFileChangesAsync();
 
-                // FILES: Automatic pull
                 // A normal pull will automatically process new/modified/deleted files, engaging the file sync handler
                 await this.todoTable.PullAsync("todoItems", this.todoTable.CreateQuery());
             }
@@ -57,16 +52,7 @@ namespace MobileAppsFilesSample
 
         public async Task<IEnumerable<TodoItem>> GetTodoItemsAsync()
         {
-            try {
-                return await todoTable.OrderBy(item => item.Name).ToListAsync();
-            }
-            catch (MobileServiceInvalidOperationException msioe) {
-                Debug.WriteLine(@"INVALID {0}", msioe.Message);
-            }
-            catch (Exception e) {
-                Debug.WriteLine(@"ERROR {0}", e.Message);
-            }
-            return null;
+            return await todoTable.OrderBy(item => item.Name).ToListAsync();
         }
 
         public async Task SaveTaskAsync(TodoItem item)
@@ -81,15 +67,7 @@ namespace MobileAppsFilesSample
 
         public async Task DeleteTaskAsync(TodoItem item)
         {
-            try {
-                await todoTable.DeleteAsync(item);
-            }
-            catch (MobileServiceInvalidOperationException msioe) {
-                Debug.WriteLine(@"INVALID {0}", msioe.Message);
-            }
-            catch (Exception e) {
-                Debug.WriteLine(@"ERROR {0}", e.Message);
-            }
+            await todoTable.DeleteAsync(item);
         }
 
         internal async Task<Stream> GetImageAsync(TodoItem todoItem, string name)
@@ -99,30 +77,19 @@ namespace MobileAppsFilesSample
 
         internal async Task<MobileServiceManagedFile> AddImageAsync(TodoItem todoItem, string name, Stream content)
         {
-            // FILES: Creating/Adding file
             return await this.todoTable.AddFileAsync(todoItem, name, content);
         }
 
         internal async Task DeleteImageAsync(TodoItem todoItem, MobileServiceManagedFile file)
         {
-            // FILES: Deleting file
             await this.todoTable.DeleteFileAsync(todoItem, file.Name);
-
             // "Touch" the record to mark it as updated
             await this.todoTable.UpdateAsync(todoItem);
         }
 
         internal async Task<IEnumerable<MobileServiceManagedFile>> GetImageFilesAsync(TodoItem todoItem)
         {
-            // FILES: Get files (local)
-            try
-            {
-                return await this.todoTable.GetFilesAsync(todoItem);
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
+            return await this.todoTable.GetFilesAsync(todoItem);
         }
     }
 }

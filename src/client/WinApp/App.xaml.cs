@@ -27,17 +27,6 @@ namespace WinApp
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
-
-            var client = new MobileServiceClient(Constants.ApplicationURL);
-
-            MobileAppsFilesSample.App.Client = client;
-            var store = new MobileServiceSQLiteStore("localstore.db");
-            store.DefineTable<TodoItem>();
-
-            client.InitializeManagedFileSyncContext(store);
-
-            // this is bad...
-            client.SyncContext.InitializeAsync(store, StoreTrackingOptions.NotifyLocalAndServerOperations).Wait();
         }
 
         /// <summary>
