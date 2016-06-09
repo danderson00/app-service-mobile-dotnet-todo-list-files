@@ -25,15 +25,8 @@ namespace MobileAppsFilesSample.Droid
             App.UIContext = this;
 
             LoadApplication(new App(async (client, store) => {
-                try
-                {
-                    client.InitializeManagedFileSyncContext(store, Environment.DirectoryPictures);
-                    await client.SyncContext.InitializeAsync(store);
-                }
-                catch (Exception ex)
-                {
-                    
-                }
+                client.InitializeManagedFileSyncContext(store, Environment.DirectoryPictures);
+                await client.SyncContext.InitializeAsync(store, StoreTrackingOptions.NotifyLocalAndServerOperations);
             }));
         }
     }

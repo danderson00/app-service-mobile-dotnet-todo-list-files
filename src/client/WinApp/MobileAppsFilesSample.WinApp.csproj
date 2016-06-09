@@ -212,17 +212,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MobileAppsFilesSample\MobileAppsFilesSample.csproj">
-      <Project>{3afa591d-c115-4ac9-9519-f788373ecde9}</Project>
-      <Name>MobileAppsFilesSample</Name>
-    </ProjectReference>
-    <ProjectReference Include="D:\azure-mobile-apps-net-files-client\src\Microsoft.WindowsAzure.Mobile.Files.WinApps\Microsoft.WindowsAzure.Mobile.Files.WinApps.csproj">
+    <ProjectReference Include="..\..\..\..\azure-mobile-apps-net-files-client\src\Microsoft.WindowsAzure.Mobile.Files.WinApps\Microsoft.WindowsAzure.Mobile.Files.WinApps.csproj">
       <Project>{0e626c17-f046-4375-95a7-8d14566e2a85}</Project>
       <Name>Microsoft.WindowsAzure.Mobile.Files.WinApps</Name>
     </ProjectReference>
-    <ProjectReference Include="D:\azure-mobile-apps-net-files-client\src\Microsoft.WindowsAzure.Mobile.Files\Microsoft.WindowsAzure.Mobile.Files.csproj">
+    <ProjectReference Include="..\..\..\..\azure-mobile-apps-net-files-client\src\Microsoft.WindowsAzure.Mobile.Files\Microsoft.WindowsAzure.Mobile.Files.csproj">
       <Project>{5b3bea58-ee5d-467c-9906-30176c0d4740}</Project>
       <Name>Microsoft.WindowsAzure.Mobile.Files</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MobileAppsFilesSample\MobileAppsFilesSample.csproj">
+      <Project>{3afa591d-c115-4ac9-9519-f788373ecde9}</Project>
+      <Name>MobileAppsFilesSample</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

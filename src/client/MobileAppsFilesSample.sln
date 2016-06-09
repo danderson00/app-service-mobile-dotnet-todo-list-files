@@ -13,16 +13,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileAppsFilesSample.WinAp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{0290E8E6-B244-44CD-A5A9-3C11D715B95A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.WindowsAzure.Mobile.Files", "D:\azure-mobile-apps-net-files-client\src\Microsoft.WindowsAzure.Mobile.Files\Microsoft.WindowsAzure.Mobile.Files.csproj", "{5B3BEA58-EE5D-467C-9906-30176C0D4740}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.WindowsAzure.Mobile.Files", "..\..\..\azure-mobile-apps-net-files-client\src\Microsoft.WindowsAzure.Mobile.Files\Microsoft.WindowsAzure.Mobile.Files.csproj", "{5B3BEA58-EE5D-467C-9906-30176C0D4740}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.WindowsAzure.Mobile.Files.Android", "D:\azure-mobile-apps-net-files-client\src\Microsoft.WindowsAzure.Mobile.Files.Android\Microsoft.WindowsAzure.Mobile.Files.Android.csproj", "{A8392497-FB01-4FC2-B8BE-D9444CCD8F12}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.WindowsAzure.Mobile.Files.Android", "..\..\..\azure-mobile-apps-net-files-client\src\Microsoft.WindowsAzure.Mobile.Files.Android\Microsoft.WindowsAzure.Mobile.Files.Android.csproj", "{A8392497-FB01-4FC2-B8BE-D9444CCD8F12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.WindowsAzure.Mobile.Files.WinApps", "D:\azure-mobile-apps-net-files-client\src\Microsoft.WindowsAzure.Mobile.Files.WinApps\Microsoft.WindowsAzure.Mobile.Files.WinApps.csproj", "{0E626C17-F046-4375-95A7-8D14566E2A85}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.WindowsAzure.Mobile.Files.WinApps", "..\..\..\azure-mobile-apps-net-files-client\src\Microsoft.WindowsAzure.Mobile.Files.WinApps\Microsoft.WindowsAzure.Mobile.Files.WinApps.csproj", "{0E626C17-F046-4375-95A7-8D14566E2A85}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Microsoft.WindowsAzure.Mobile.Files.Shared", "..\..\..\azure-mobile-apps-net-files-client\src\Microsoft.WindowsAzure.Mobile.Files.Shared\Microsoft.WindowsAzure.Mobile.Files.Shared.shproj", "{43D5F13A-0CF6-4417-A352-D23701AECE79}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		D:\azure-mobile-apps-net-files-client\src\Microsoft.WindowsAzure.Mobile.Files.Shared\Microsoft.WindowsAzure.Mobile.Files.Shared.projitems*{a8392497-fb01-4fc2-b8be-d9444ccd8f12}*SharedItemsImports = 4
-		D:\azure-mobile-apps-net-files-client\src\Microsoft.WindowsAzure.Mobile.Files.Shared\Microsoft.WindowsAzure.Mobile.Files.Shared.projitems*{0e626c17-f046-4375-95a7-8d14566e2a85}*SharedItemsImports = 4
+		..\..\..\azure-mobile-apps-net-files-client\src\Microsoft.WindowsAzure.Mobile.Files.Shared\Microsoft.WindowsAzure.Mobile.Files.Shared.projitems*{a8392497-fb01-4fc2-b8be-d9444ccd8f12}*SharedItemsImports = 4
+		..\..\..\azure-mobile-apps-net-files-client\src\Microsoft.WindowsAzure.Mobile.Files.Shared\Microsoft.WindowsAzure.Mobile.Files.Shared.projitems*{43d5f13a-0cf6-4417-a352-d23701aece79}*SharedItemsImports = 13
+		..\..\..\azure-mobile-apps-net-files-client\src\Microsoft.WindowsAzure.Mobile.Files.Shared\Microsoft.WindowsAzure.Mobile.Files.Shared.projitems*{0e626c17-f046-4375-95a7-8d14566e2a85}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -234,5 +237,6 @@ Global
 		{5B3BEA58-EE5D-467C-9906-30176C0D4740} = {0290E8E6-B244-44CD-A5A9-3C11D715B95A}
 		{A8392497-FB01-4FC2-B8BE-D9444CCD8F12} = {0290E8E6-B244-44CD-A5A9-3C11D715B95A}
 		{0E626C17-F046-4375-95A7-8D14566E2A85} = {0290E8E6-B244-44CD-A5A9-3C11D715B95A}
+		{43D5F13A-0CF6-4417-A352-D23701AECE79} = {0290E8E6-B244-44CD-A5A9-3C11D715B95A}
 	EndGlobalSection
 EndGlobal

@@ -1,7 +1,8 @@
 using System.IO;
 using System.Threading.Tasks;
 using Android.Content;
-using Xamarin.Media;
+using Media.Plugin;
+using Media.Plugin.Abstractions;
 
 [assembly: Xamarin.Forms.Dependency(typeof(MobileAppsFilesSample.Droid.DroidPlatform))]
 namespace MobileAppsFilesSample.Droid
@@ -13,14 +14,13 @@ namespace MobileAppsFilesSample.Droid
             try {
                 var uiContext = context as Context;
                 if (uiContext != null) {
-                    var mediaPicker = new MediaPicker(uiContext);
-                    var photo = await mediaPicker.TakePhotoAsync(new StoreCameraMediaOptions());
-
-                    return photo.GetStream();
+                    var photo = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions());
+                    var stream = photo.GetStream();
+                    // breaking here works around a bug that makes this shit work... ?
+                    return stream;
                 }
             }
-            catch (TaskCanceledException) {
-            }
+            catch (TaskCanceledException) { }
 
             return null;
         }
