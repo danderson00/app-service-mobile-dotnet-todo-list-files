@@ -1,6 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using Microsoft.WindowsAzure.MobileServices;
+using Microsoft.WindowsAzure.MobileServices.SQLiteStore;
+using Microsoft.WindowsAzure.Mobile.Files.Managed;
 using MobileAppsFilesSample;
 using Windows.Foundation;
 using Windows.Media.Capture;
@@ -11,6 +14,11 @@ namespace WinApp
 {
     public class WindowsStorePlatform : IPlatform
     {
+        public void InitializeFiles(IMobileServiceClient client, MobileServiceSQLiteStore store)
+        {
+            client.InitializeManagedFileSyncContext(store);
+        }
+
         public async Task<Stream> TakePhotoAsync(object context)
         {
             try {

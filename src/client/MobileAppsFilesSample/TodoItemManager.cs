@@ -83,8 +83,6 @@ namespace MobileAppsFilesSample
         internal async Task DeleteImageAsync(TodoItem todoItem, MobileServiceManagedFile file)
         {
             await this.todoTable.DeleteFileAsync(todoItem, file.Name);
-            // "Touch" the record to mark it as updated
-            await this.todoTable.UpdateAsync(todoItem);
         }
 
         internal async Task<IEnumerable<MobileServiceManagedFile>> GetImageFilesAsync(TodoItem todoItem)

@@ -1,51 +1,36 @@
-﻿using MobileAppsFilesSample.ViewModels;
-using Xamarin.Forms;
-using Microsoft.WindowsAzure.MobileServices;
-using System.Threading.Tasks;
-using System;
+﻿using Microsoft.WindowsAzure.MobileServices;
 using Microsoft.WindowsAzure.MobileServices.SQLiteStore;
-using MobileAppsFilesSample.Views;
+using Xamarin.Forms;
+using Microsoft.WindowsAzure.MobileServices.Sync;
+using MobileAppsFilesSample.ViewModels;
 
 namespace MobileAppsFilesSample
 {
     public class App : Application
     {
         public static IMobileServiceClient Client { get; set; }
-        public Func<IMobileServiceClient, MobileServiceSQLiteStore, Task> Initializer { get; private set; }
+        public static object UIContext { get; set; }
+        public static IPlatform Platform { get; set; }
 
-        public App(Func<IMobileServiceClient, MobileServiceSQLiteStore, Task> initializer)
+        public App()
         {
-            Initializer = initializer;
+            Platform = DependencyService.Get<IPlatform>();
 
-            App.Client = new MobileServiceClient(Constants.ApplicationURL);
+            App.Client = new MobileServiceClient(Configuration.MobileAppURL);
             var store = new MobileServiceSQLiteStore("localstore.db");
             store.DefineTable<TodoItem>();
+            Platform.InitializeFiles(App.Client, store);
 
-            //await Initializer(App.Client, store);
-            this.MainPage = new NavigationPage(new SplashScreen(async () => {
-                await Initializer(App.Client, store);
-            }));
-            //Device.BeginInvokeOnMainThread(async () => {
-            //    await initializer(App.Client, store);
-            //});
+            var model = new TodoListViewModel();
+            this.MainPage = new NavigationPage(new TodoList(model));
 
-            //initializer(App.Client, store).ContinueWith(x =>
-            //{
-            //    this.MainPage = new NavigationPage(new TodoList(new TodoListViewModel()));
-            //}, TaskScheduler.FromCurrentSynchronizationContext());
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                await App.Client.SyncContext.InitializeAsync(store, StoreTrackingOptions.NotifyLocalAndServerOperations);
+                await model.SyncItemsAsync();
+            });
 
-            //this.Initializer = initializer;
         }
-
-        public static object UIContext { get; set; }
-
-        protected override async void OnStart()
-        {
-        }
-
-        protected override void OnSleep () { }
-
-        protected override void OnResume () { }
     }
 }
 

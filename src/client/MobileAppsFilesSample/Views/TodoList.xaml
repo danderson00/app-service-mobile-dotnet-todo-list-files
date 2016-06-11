@@ -20,8 +20,8 @@
           <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Entry x:Name="newItemName"
-                  Placeholder="Item name"
-                  Text="{Binding NewItemText, Mode=TwoWay}" />
+               Placeholder="Item name"
+               Text="{Binding NewItemText, Mode=TwoWay}" />
         <StackLayout Grid.Column="1" Orientation="Horizontal" HorizontalOptions="StartAndExpand">
           <Button Text="+"
                   MinimumHeightRequest="30"
@@ -38,13 +38,13 @@
       </Grid>
     </StackLayout>
     <ListView x:Name="todoList"
-        ItemSelected="todoList_ItemSelected"
-        IsPullToRefreshEnabled="true" Refreshing="todoList_Refreshing"
-        ItemsSource="{Binding TodoItems}"
-        Grid.Row="1">
+              ItemSelected="todoList_ItemSelected"
+              IsPullToRefreshEnabled="true" Refreshing="todoList_Refreshing"
+              ItemsSource="{Binding TodoItems}"
+              Grid.Row="1">
       <ListView.ItemTemplate>
         <DataTemplate>
-          <TextCell Text="{Binding Name}">
+          <TextCell Text="{Binding TodoItem.Name}">
             <TextCell.ContextActions>
               <MenuItem Command="{Binding Path=BindingContext.DeleteItemCommand, Source={x:Reference todoList} }" Text="Delete" IsDestructive="True" CommandParameter="{Binding .}"/>
             </TextCell.ContextActions>
@@ -55,7 +55,7 @@
 
     <ContentView Grid.Row="2" BackgroundColor="Gray" Padding="5,2,2,2" IsVisible="{Binding IsStatusBarVisible}">
       <Label x:Name="statusLabel" BackgroundColor="Gray" TextColor="White" 
-        Text="{Binding PendingChanges, StringFormat ='Pending Changes: {0}'}">
+             Text="{Binding PendingChanges, StringFormat ='Pending Changes: {0}'}">
       </Label>
     </ContentView>
   </Grid>

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.WindowsAzure.MobileServices.Sync;
@@ -14,9 +10,9 @@ namespace MobileAppsFilesSample.ViewModels
     public class TodoListViewModel : ViewModel
     {
         private TodoItemManager manager;
-        private string newItemText = "";
 
         private ObservableCollection<TodoItemViewModel> todoItems;
+        private string newItemText = "";
         private long pendingChanges;
         private bool isStatusBarVisible;
 
@@ -25,19 +21,16 @@ namespace MobileAppsFilesSample.ViewModels
 
         public TodoListViewModel()
         {
-            InitCommands();
+            this.AddItemCommand = new DelegateCommand(AddItem);
+            this.DeleteItemCommand = new DelegateCommand(DeleteItem);
 
             this.manager = new TodoItemManager(App.Client);
-            this.manager.MobileServiceClient.EventManager.Subscribe<StoreOperationCompletedEvent>(StoreOperationEventHandler);
-            //Device.BeginInvokeOnMainThread(async () => { await SyncItemsAsync(); });
+            this.manager.MobileServiceClient.EventManager.Subscribe<StoreOperationCompletedEvent>(UpdatePendingChanges);
         }
 
         public ObservableCollection<TodoItemViewModel> TodoItems
         {
-            get
-            {
-                return todoItems;
-            }
+            get { return todoItems; }
             set
             {
                 todoItems = value;
@@ -47,11 +40,7 @@ namespace MobileAppsFilesSample.ViewModels
 
         public string NewItemText
         {
-            get
-            {
-                return newItemText;
-            }
-
+            get { return newItemText; }
             set
             {
                 newItemText = value;
@@ -61,11 +50,7 @@ namespace MobileAppsFilesSample.ViewModels
 
         public long PendingChanges
         {
-            get
-            {
-                return pendingChanges;
-            }
-
+            get { return pendingChanges; }
             set
             {
                 pendingChanges = value;
@@ -75,11 +60,7 @@ namespace MobileAppsFilesSample.ViewModels
 
         public bool IsStatusBarVisible
         {
-            get
-            {
-                return isStatusBarVisible;
-            }
-
+            get { return isStatusBarVisible; }
             set
             {
                 isStatusBarVisible = value;
@@ -87,28 +68,18 @@ namespace MobileAppsFilesSample.ViewModels
             }
         }
 
-        private async void StoreOperationEventHandler(StoreOperationCompletedEvent mobileServiceEvent)
+        private async void UpdatePendingChanges(StoreOperationCompletedEvent mobileServiceEvent)
         {
             await Task.Delay(500);
             PendingChanges = manager.MobileServiceClient.SyncContext.PendingOperations;
             IsStatusBarVisible = PendingChanges > 0;
         }
 
-        private void InitCommands()
-        {
-            this.AddItemCommand = new DelegateCommand(AddItem);
-            this.DeleteItemCommand = new DelegateCommand(DeleteItem);
-        }
-
         private async Task LoadItems()
         {
-            IEnumerable<TodoItem> items = await manager.GetTodoItemsAsync();
-            TodoItems = new ObservableCollection<TodoItemViewModel>();
-
-            foreach (var i in items) {
-                TodoItems.Add(await TodoItemViewModel.CreateAsync(i, this.manager));
-                Debug.WriteLine("Created view model for: " + i.Name);
-            }
+            var items = await manager.GetTodoItemsAsync();
+            var models = items.Select(x => new TodoItemViewModel(manager, x));
+            TodoItems = new ObservableCollection<TodoItemViewModel>(models);
         }
 
         public async Task SyncItemsAsync()
@@ -130,19 +101,14 @@ namespace MobileAppsFilesSample.ViewModels
 
         async void DeleteItem(object data)
         {
-            var viewModel = data as TodoItemViewModel;
-
-            await manager.DeleteTaskAsync(viewModel.GetItem());
+            await manager.DeleteTaskAsync(((TodoItemViewModel)data).TodoItem);
             await LoadItems();
         }
 
-        public async Task NavigateToDetailsView(TodoItemViewModel todo, INavigation navigation)
+        public async Task NavigateToDetailsView(TodoItemViewModel model, INavigation navigation)
         {
-            await todo.LoadImagesAsync();
-            var detailsView = new TodoItemDetailsView();
-            detailsView.BindingContext = todo;
-
-            await navigation.PushAsync(detailsView);
+            await model.LoadImagesAsync();
+            await navigation.PushAsync(new TodoItemDetailsView { BindingContext = model });
         }
     }
 }

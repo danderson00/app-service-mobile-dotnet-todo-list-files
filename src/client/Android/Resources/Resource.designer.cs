@@ -9,9 +9,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("MobileAppsFilesSample.Droid.Resource", IsApplication=true)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("MobileAppsFilesSample.Android.Resource", IsApplication=true)]
 
-namespace MobileAppsFilesSample.Droid
+namespace MobileAppsFilesSample.Android
 {
 	
 	
@@ -26,11 +26,11 @@ namespace MobileAppsFilesSample.Droid
 		
 		public static void UpdateIdValues()
 		{
-			global::Microsoft.WindowsAzure.Mobile.Files.Resource.String.ApplicationName = global::MobileAppsFilesSample.Droid.Resource.String.ApplicationName;
-			global::Microsoft.WindowsAzure.Mobile.Files.Resource.String.Hello = global::MobileAppsFilesSample.Droid.Resource.String.Hello;
-			global::PCLStorage.Resource.String.ApplicationName = global::MobileAppsFilesSample.Droid.Resource.String.ApplicationName;
-			global::PCLStorage.Resource.String.Hello = global::MobileAppsFilesSample.Droid.Resource.String.Hello;
-			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::MobileAppsFilesSample.Droid.Resource.Attribute.actionBarSize;
+			global::Microsoft.WindowsAzure.Mobile.Files.Resource.String.ApplicationName = global::MobileAppsFilesSample.Android.Resource.String.ApplicationName;
+			global::Microsoft.WindowsAzure.Mobile.Files.Resource.String.Hello = global::MobileAppsFilesSample.Android.Resource.String.Hello;
+			global::PCLStorage.Resource.String.ApplicationName = global::MobileAppsFilesSample.Android.Resource.String.ApplicationName;
+			global::PCLStorage.Resource.String.Hello = global::MobileAppsFilesSample.Android.Resource.String.Hello;
+			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::MobileAppsFilesSample.Android.Resource.Attribute.actionBarSize;
 		}
 		
 		public partial class Animation

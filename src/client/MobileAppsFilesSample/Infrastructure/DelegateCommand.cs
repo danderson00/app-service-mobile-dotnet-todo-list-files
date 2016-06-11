@@ -1,7 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Input;
 
 namespace MobileAppsFilesSample
@@ -13,11 +10,7 @@ namespace MobileAppsFilesSample
 
         public event EventHandler CanExecuteChanged;
 
-        public DelegateCommand(Action<object> handler)
-            : this(handler, (o) => true)
-        {
-
-        }
+        public DelegateCommand(Action<object> handler) : this(handler, (o) => true) { }
 
         public DelegateCommand(Action<object> handler, Func<object, bool> canExecuteHandler)
         {

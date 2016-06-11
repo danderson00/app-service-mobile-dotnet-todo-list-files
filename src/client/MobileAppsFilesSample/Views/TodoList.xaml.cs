@@ -18,7 +18,6 @@ namespace MobileAppsFilesSample
 
             InitializeComponent();
 
-            // OnPlatform<T> doesn't currently support the "Windows" target platform, so we have this check here.
             if (Device.OS == TargetPlatform.Windows || Device.OS == TargetPlatform.WinPhone)
             {
                 syncButton.IsVisible = true;
@@ -27,10 +26,11 @@ namespace MobileAppsFilesSample
 
         public async void todoList_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            var todo = e.SelectedItem as TodoItemViewModel;
+            var todoItem = e.SelectedItem as TodoItemViewModel;
 
-            if (todo != null) {
-                await ViewModel.NavigateToDetailsView(todo, Navigation);
+            if (todoItem != null)
+            {
+                await ViewModel.NavigateToDetailsView(todoItem, Navigation);
             }
 
             todoList.SelectedItem = null;
@@ -38,63 +38,28 @@ namespace MobileAppsFilesSample
 
         public async void todoList_Refreshing(object sender, EventArgs e)
         {
-            var list = (ListView)sender;
-
-            var success = false;
-
-            try {
-                await ViewModel.SyncItemsAsync();
-                success = true;
-            }
-            catch (Exception) {
-            }
-
-            list.EndRefresh();
-            if (!success)
-                await DisplayAlert("Refresh Error", "Couldn't refresh data", "OK");
+            await SyncAsync();
+            ((ListView)sender).EndRefresh();
         }
 
         public async void syncButton_Clicked(object sender, EventArgs e)
         {
-            using (var scope = new ActivityIndicatorScope(syncIndicator, true)) {
-                await ViewModel.SyncItemsAsync();
+            using (var scope = new ActivityIndicatorScope(syncIndicator, 2000))
+            {
+                await SyncAsync();
             }
         }
 
-        private class ActivityIndicatorScope : IDisposable
+        private async Task SyncAsync()
         {
-            private bool showIndicator;
-            private ActivityIndicator indicator;
-            private Task indicatorDelay;
-
-            public ActivityIndicatorScope(ActivityIndicator indicator, bool showIndicator)
+            try
             {
-                this.indicator = indicator;
-                this.showIndicator = showIndicator;
-
-                if (showIndicator)
-                {
-                    indicatorDelay = Task.Delay(2000);
-                    SetIndicatorActivity(true);
-                }
-                else
-                {
-                    indicatorDelay = Task.FromResult(0);
-                }
+                // there is a problem with exceptions being swallowed by PullAsync
+                await ViewModel.SyncItemsAsync();
             }
-
-            private void SetIndicatorActivity(bool isActive)
+            catch (Exception ex)
             {
-                this.indicator.IsVisible = isActive;
-                this.indicator.IsRunning = isActive;
-            }
-
-            public void Dispose()
-            {
-                if (showIndicator)
-                {
-                    indicatorDelay.ContinueWith(t => SetIndicatorActivity(false), TaskScheduler.FromCurrentSynchronizationContext());
-                }
+                await DisplayAlert("Refresh Error", $"Couldn't refresh data {ex.Message}", "OK");
             }
         }
     }
