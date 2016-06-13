@@ -24,7 +24,7 @@ namespace MobileAppsFilesSample.Android
                 var uiContext = context as Context;
                 if (uiContext != null) {
                     var photo = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions());
-                    var stream = photo.GetStream();
+                    var stream = (FileStream) photo.GetStream();
 
                     // breaking here works around a bug that makes this shit work... ?
                     return stream;

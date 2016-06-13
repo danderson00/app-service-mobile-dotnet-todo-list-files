@@ -44,7 +44,7 @@ namespace MobileAppsFilesSample
 
         public async void syncButton_Clicked(object sender, EventArgs e)
         {
-            using (var scope = new ActivityIndicatorScope(syncIndicator, 2000))
+            using (new ActivityIndicatorScope(syncIndicator, 2000))
             {
                 await SyncAsync();
             }
@@ -59,7 +59,7 @@ namespace MobileAppsFilesSample
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Refresh Error", $"Couldn't refresh data {ex.Message}", "OK");
+                await DisplayAlert("Refresh Error", $"Couldn't refresh data - {ex.Message}", "OK");
             }
         }
     }
