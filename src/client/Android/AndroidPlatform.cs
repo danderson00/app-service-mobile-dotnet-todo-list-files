@@ -20,9 +20,11 @@ namespace MobileAppsFilesSample.Android
 
         public async Task<Stream> TakePhotoAsync(object context)
         {
-            try {
+            try
+            {
                 var uiContext = context as Context;
-                if (uiContext != null) {
+                if (uiContext != null)
+                {
                     var photo = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions());
                     var stream = (FileStream) photo.GetStream();
 

@@ -28,21 +28,27 @@ namespace MobileAppsFilesSample
                 // A normal pull will automatically process new/modified/deleted files, engaging the file sync handler
                 await this.todoTable.PullAsync("todoItems", this.todoTable.CreateQuery());
             }
-            catch (MobileServicePushFailedException exc) {
-                if (exc.PushResult != null) {
+            catch (MobileServicePushFailedException exc)
+            {
+                if (exc.PushResult != null)
+                {
                     syncErrors = exc.PushResult.Errors;
                 }
             }
 
             // Simple error/conflict handling. A real application would handle the various errors like network conditions,
             // server conflicts and others via the IMobileServiceSyncHandler.
-            if (syncErrors != null) {
-                foreach (var error in syncErrors) {
-                    if (error.OperationKind == MobileServiceTableOperationKind.Update && error.Result != null) {
+            if (syncErrors != null)
+            {
+                foreach (var error in syncErrors)
+                {
+                    if (error.OperationKind == MobileServiceTableOperationKind.Update && error.Result != null)
+                    {
                         //Update failed, reverting to server's copy.
                         await error.CancelAndUpdateItemAsync(error.Result);
                     }
-                    else {
+                    else
+                    {
                         // Discard local change.
                         await error.CancelAndDiscardItemAsync();
                     }
@@ -57,10 +63,12 @@ namespace MobileAppsFilesSample
 
         public async Task SaveTaskAsync(TodoItem item)
         {
-            if (item.Id == null) {
+            if (item.Id == null)
+            {
                 await todoTable.InsertAsync(item);
             }
-            else {
+            else
+            {
                 await todoTable.UpdateAsync(item);
             }
         }

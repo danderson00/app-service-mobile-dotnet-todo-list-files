@@ -26,7 +26,7 @@ namespace MobileAppsFilesSample
 
             Device.BeginInvokeOnMainThread(async () =>
             {
-                await App.Client.SyncContext.InitializeAsync(store, StoreTrackingOptions.NotifyLocalAndServerOperations);
+                await App.Client.SyncContext.InitializeAsync(store, StoreTrackingOptions.AllNotificationsAndChangeDetection);
                 await model.SyncItemsAsync();
             });
 
